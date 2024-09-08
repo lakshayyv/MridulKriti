@@ -25,6 +25,33 @@ const controller = {
       message: response,
     });
   },
+
+  fetchAll: async (req: Request, res: Response, next: NextFunction) => {
+    const response = await db.image.findMany();
+
+    return res.status(200).json({
+      success: true,
+      message: response,
+    });
+  },
+
+  fetchById: async (req: Request, res: Response, next: NextFunction) => {
+    const imageId: string = req.params.id;
+
+    if (!imageId) {
+      return res.status(500).json({
+        success: false,
+        message: "Something went wrong.",
+      });
+    }
+
+    const response = await db.image.findUnique({ where: { id: imageId } });
+
+    return res.status(200).json({
+      success: true,
+      message: response,
+    });
+  },
 };
 
 export default controller;

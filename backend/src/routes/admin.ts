@@ -8,5 +8,6 @@ router.route("/signin").post(controller.signin);
 
 router.use(middleware);
 router.route("/signup").post(controller.signup);
+router.route("/profile").get(controller.fetch);
 
 export default router;
