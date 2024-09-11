@@ -3,7 +3,14 @@ import { InputProps } from "../utils/types";
 
 function Input(props: InputProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.cb(e.target.value);
+    if (props.cb) {
+      props.cb(e.target.value);
+    } else if (props.imageCB) {
+      const file = e.target.files?.[0];
+      if (file) {
+        props.imageCB(file);
+      }
+    }
   };
 
   return (
@@ -15,7 +22,7 @@ function Input(props: InputProps) {
         placeholder={props.placeholder}
         value={props.value}
         onChange={handleChange}
-        inputMode={props.inputMode}
+        accept={props.imageCB && "image/*"}
         required
       />
     </div>

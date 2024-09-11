@@ -2,10 +2,16 @@ import { FormEvent, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { signin } from "../api/admin";
+import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { AuthAtom } from "../store/atoms/auth";
 
 function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setAuthorized = useSetRecoilState(AuthAtom);
+
+  const navigate: NavigateFunction = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,7 +19,8 @@ function Signin() {
     const success = await signin(email, password);
 
     if (success) {
-      console.log(success);
+      setAuthorized(true);
+      navigate("/");
       setEmail("");
       setPassword("");
     }

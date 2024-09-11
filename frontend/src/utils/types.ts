@@ -1,10 +1,15 @@
-import { Dispatch, MouseEventHandler, SetStateAction } from "react";
+import {
+  Dispatch,
+  MouseEventHandler,
+  ReactElement,
+  SetStateAction,
+} from "react";
 
 export type InputProps = {
   label: string;
   type: string;
   placeholder: string;
-  value: string;
+  value?: string;
   className?: string;
   inputMode?:
     | "search"
@@ -15,7 +20,8 @@ export type InputProps = {
     | "none"
     | "numeric"
     | "decimal";
-  cb: Dispatch<SetStateAction<string>>;
+  cb?: Dispatch<SetStateAction<string>>;
+  imageCB?: Dispatch<SetStateAction<File | undefined>>;
 };
 
 export type ButtonProps = {
@@ -23,4 +29,8 @@ export type ButtonProps = {
   label: string;
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+};
+
+export type RouteProps = {
+  element: ReactElement<any, any>;
 };

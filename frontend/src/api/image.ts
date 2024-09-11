@@ -1,9 +1,13 @@
 import axios, { isAxiosError } from "axios";
 
-export const signin = async (email: string, password: string) => {
+export const upload = async (
+  title: string,
+  description: string,
+  image: string
+) => {
   try {
-    const payload = { email, password };
-    const response = await axios.post("/api/v1/admin/signin", payload);
+    const payload = { title, description, image };
+    const response = await axios.post("/api/v1/image/upload", payload);
     return response.data.success;
   } catch (err) {
     if (isAxiosError(err)) {

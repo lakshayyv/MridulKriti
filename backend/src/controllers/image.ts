@@ -7,9 +7,7 @@ const controller = {
   upload: async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
 
-    const result = await cloudinary.uploader.upload(
-      `data:image/jpeg;base64,${payload.image}`
-    );
+    const result = await cloudinary.uploader.upload(payload.image);
 
     const response = await db.image.create({
       data: {

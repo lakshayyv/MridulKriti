@@ -1,9 +1,8 @@
 import axios, { isAxiosError } from "axios";
 
-export const signin = async (email: string, password: string) => {
+export const checkAuth = async () => {
   try {
-    const payload = { email, password };
-    const response = await axios.post("/api/v1/admin/signin", payload);
+    const response = await axios.get("/api/v1/auth/check");
     return response.data.success;
   } catch (err) {
     if (isAxiosError(err)) {

@@ -6,6 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import adminRouter from "./routes/admin";
 import imageRouter from "./routes/image";
+import authRouter from "./routes/auth";
 dotenv.config();
 
 const app: Express = express();
@@ -24,6 +25,7 @@ cloudinary.config({
 
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/image", imageRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.listen(port, () => {
   console.log(`Server started at port [${port}]`);
