@@ -3,14 +3,22 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { upload } from "../api/image";
 import { fileToBase64 } from "../utils/helpers";
+import ImageViewBox from "../components/ImageViewBox";
+import { useRecoilRefresher_UNSTABLE, useSetRecoilState } from "recoil";
+import { LoaderAtom } from "../store/atoms/app";
+import { AllImageAtom } from "../store/atoms/image";
 
 function Dashboard() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | undefined>(undefined);
 
+  const setLoader = useSetRecoilState(LoaderAtom);
+  const allImageRefresher = useRecoilRefresher_UNSTABLE(AllImageAtom);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoader(true);
     if (image) {
       try {
         const base64String = await fileToBase64(image);
@@ -24,11 +32,13 @@ function Dashboard() {
         console.error("Error converting image to base64:", error);
       }
     }
+    allImageRefresher();
+    setLoader(false);
   };
 
   return (
-    <div className="w-1/2 flex justify-center">
-      <div className="w-2/3">
+    <div className="w-full flex">
+      <div className="w-1/2 flex justify-center">
         <form onSubmit={handleSubmit} className="grid gap-y-10">
           <h1 className="font-bold text-5xl">Add an Image</h1>
           <Input
@@ -53,6 +63,9 @@ function Dashboard() {
           />
           <Button label="Submit" type="submit" />
         </form>
+      </div>
+      <div className="w-1/2">
+        <ImageViewBox />
       </div>
     </div>
   );
